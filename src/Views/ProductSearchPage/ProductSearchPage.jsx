@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Typography, Button } from "@mui/material";
-import Grid from "@mui/material/Grid2";
+import { TextField, Typography, Box } from "@mui/material";
+import Grid from "@mui/material/Grid2"; 
 
 import "./ProductSearchPage.css";
 import Card from "../../Components/Card/Card";
+
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 const productsData = [
   {
@@ -69,6 +82,64 @@ const productsData = [
   },
 ];
 
+function AlertDialogSlide() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  console.log("entre"
+  );
+  
+
+  return (
+
+    
+    <React.Fragment>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Agregar Producto
+      </Button>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Agregar un producto"}</DialogTitle>
+        <DialogContent>
+        <Box
+      component="form"
+      sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}
+      noValidate
+      autoComplete="off"
+        > 
+      <div>
+        <TextField
+          required
+          id="outlined-required"
+          label="Nombre"  
+        />
+        </div>
+        </Box>
+          <DialogContentText id="alert-dialog-slide-description">
+           si claro
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={handleClose}>Agree</Button>
+        </DialogActions>
+      </Dialog>
+    </React.Fragment>
+  );
+}
+
 const ProductSearchPage = () => {
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState(productsData);
@@ -90,7 +161,9 @@ const ProductSearchPage = () => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         style={{ marginTop: "4rem", marginBottom: "4rem" }}
+    
       />
+    <AlertDialogSlide/>
       {products.length > 0 ? (
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           {products.map((product) => (
